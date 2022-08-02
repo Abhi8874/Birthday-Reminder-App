@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.maurya.birthdayreminder.databinding.ActivityMainBinding
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
 
-            alertTime(2022, 7, 31, Uhours, Uminute,0)
+            alertTime(2022, 8, 2, Uhours, Uminute,0)
             Log.d("TAG", "onCreate: $totalSecond")
             val ALARM_DELAY_IN_SECOND = totalSecond
             val alarmTimeAtUTC = System.currentTimeMillis() + ALARM_DELAY_IN_SECOND * 1000L
@@ -58,10 +59,11 @@ class MainActivity : AppCompatActivity() {
             val reminderIntent = Intent(this, ReminderBroadcast::class.java)
             val pendingIntent = PendingIntent.getBroadcast(this@MainActivity, alarmRequestCode, reminderIntent, 0)
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeAtUTC, pendingIntent)
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTimeAtUTC, pendingIntent)
 
 //            mp= MediaPlayer.create(this, R.raw.wakeup_alarm)
 //            mp!!.start()
+            Toast.makeText(this, "seconds : $totalSecond", Toast.LENGTH_SHORT).show()
 
         }
     }
